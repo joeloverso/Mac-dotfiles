@@ -1,5 +1,16 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+;; Hide MacOS title bar and set fullscreen without flash
+(setq frame-inhibit-implied-resize t)
+(setq initial-frame-alist
+      '((undecorated . t)
+        (fullscreen . fullboth)
+        (width . 200)    ; Fallback dimensions
+        (height . 60)))
+(setq default-frame-alist
+      '((undecorated . t)
+        (fullscreen . fullboth)))
+
 ;; Set theme to Catppuccin with Mocha flavor
 (setq catppuccin-flavor 'mocha)
 (setq doom-theme 'catppuccin)
@@ -54,6 +65,36 @@
   '(mode-line-inactive :background "#000000")
   '(vertical-border :background "#000000"))
 
+;; evil-goggles colors
+(after! evil-goggles
+  ;; Make the duration longer so you can actually see it
+  (setq evil-goggles-duration 0.400          ; default is 0.200
+        evil-goggles-pulse t                 ; enable pulsing
+        evil-goggles-blocking-duration 0.100
+        evil-goggles-async-duration 0.900)
+  
+  ;; Use your pink color for all highlights
+  (custom-set-faces!
+   '(evil-goggles-default-face :background "#f4b8e4" :foreground "#000000")
+   '(evil-goggles-delete-face :background "#f4b8e4" :foreground "#000000")
+   '(evil-goggles-yank-face :background "#f4b8e4" :foreground "#000000")
+   '(evil-goggles-paste-face :background "#f4b8e4" :foreground "#000000")
+   '(evil-goggles-change-face :background "#f4b8e4" :foreground "#000000")
+   '(evil-goggles-indent-face :background "#f4b8e4" :foreground "#000000"))
+  
+  ;; Enable more operations
+  (setq evil-goggles-enable-delete t
+        evil-goggles-enable-change t
+        evil-goggles-enable-yank t
+        evil-goggles-enable-paste t
+        evil-goggles-enable-indent t
+        evil-goggles-enable-join t
+        evil-goggles-enable-shift t
+        evil-goggles-enable-surround t
+        evil-goggles-enable-commentary t
+        evil-goggles-enable-undo t
+        evil-goggles-enable-redo t))
+
 ;; KEYBINDING SETUP
 (map! :after evil
       :n "J" #'evil-scroll-down
@@ -76,7 +117,7 @@
       :n "x" (lambda () (interactive) (evil-delete-char (point) (1+ (point)) 'exclusive ?_)))
 
 ;; Launch Doom Emacs in fullscreen mode
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;;(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; For vterm to magically fix zsh nonsenses
 (setq vterm-term-environment-variable "eterm-color")
@@ -97,6 +138,9 @@
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+;; Fix Copilot indentation warning with tab preference
+(setq copilot-indent-offset-alist '((emacs-lisp-mode . 8)))
 
 ;; Set relative line numbers
 (setq display-line-numbers-type 'relative)

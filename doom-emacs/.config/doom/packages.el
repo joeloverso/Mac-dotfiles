@@ -5,10 +5,14 @@
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; Catppuccin-theme
 (package! catppuccin-theme)
+
+;; I don't even remember what this is for
 (package! solaire-mode :disable t)
+
 ;; COPILOT BABBY
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 
